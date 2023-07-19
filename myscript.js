@@ -12,27 +12,10 @@ function getComputersChoice ()
     return "Scissors";
 }
 
-function getPlayersChoice ()
+function playOneRound(e)
 {
-    let userInput = prompt("Choose: Rock, Paper or Scissors");
-    if(userInput == null || userInput == "")
-    {
-                return null;
-    }
-    firstInputLetter = userInput.charAt(0).toUpperCase();
-    userInput = firstInputLetter + userInput.substring(1).toLowerCase();
-    if(userInput == "Rock" || userInput == "Paper" || userInput == "Scissors")
-    {
-        return userInput;
-    }
-    alert("You can only choose between a Rock, Paper and Scissors. Pick one of these.");
-    return getPlayersChoice();
-}
-
-function playOneRound(playerSelection, computerSelection)
-{
-    playersChoice = playerSelection();
-    computersChoice = computerSelection();
+    playersChoice = e.target.textContent;
+    computersChoice = getComputersChoice();
     if(playersChoice == null)
     {
         return null;
@@ -83,34 +66,5 @@ function playOneRound(playerSelection, computerSelection)
 
 }
 
-function fiveRoundGame ()
-{
-    let roundsWon = 0;
-    let roundsDrawn = 0;
-    for (let i = 0; i < 5; i++)
-    {
-        aRound = playOneRound(getPlayersChoice, getComputersChoice);
-        if(aRound == null)
-        {
-            alert("You left the game");
-            return;
-        }
-        if(!aRound)
-        {
-            roundsDrawn++;
-        }
-        else if (aRound > 0)
-        {
-            roundsWon++;
-        }
-    }
-    alert(`You won ${roundsWon} rounds and drawn ${roundsDrawn} out of 5.`);
-    askToReplay = prompt("Do you want to play a gain?").toLowerCase();
-    if(askToReplay == "yes" || askToReplay == "")
-    {
-        fiveRoundGame();
-    }
-    
-}
-
-fiveRoundGame();
+const choiceButtons = document.querySelectorAll('button.choice');
+choiceButtons.forEach(button => button.addEventListener('click', playOneRound));
