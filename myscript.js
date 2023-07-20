@@ -26,44 +26,102 @@ function playOneRound(e)
             switch (computersChoice)
             {
                 case "Rock":
-                    alert("It's a draw! You both chose Rock!");
-                    return 0;
+                    addResultDiv("A draw! You both chose Rock!");
+                    return;
                 case "Paper":
-                    alert("You lost. Paper beats Rock.");
-                    return -1;
+                    addResultDiv("You lost. Paper beats Rock.");
+                    return;
                 case "Scissors":
-                    alert("You won! Rock beats Scissors.");
-                    return 1;
+                    addResultDiv("You won! Rock beats Scissors.");
+                    return;
             }
         case "Paper":
             switch (computersChoice)
             {
                 case "Rock":
-                    alert("You won! Paper beats Rock.");
-                    return 1;
+                    addResultDiv("You won! Paper beats Rock.");
+                    return;
                 case "Paper":
-                    alert("It's a draw! You both chose Paper!");
-                    return 0;
+                    addResultDiv("A draw! You both chose Paper!");
+                    return;
                 case "Scissors":
-                    alert("You lost. Scissors beat Paper.");
-                    return -1;
+                    addResultDiv("You lost. Scissors beat Paper.");
+                    return;
             }
         case "Scissors":
             switch (computersChoice)
             {
                 case "Rock":
-                    alert("You lost. Rock beats Scissors.");
-                    return -1;
+                    addResultDiv("You lost. Rock beats Scissors.");
+                    return;
                 case "Paper":
-                    alert("You won! Scissors beat Paper.");
-                    return 1;
+                    addResultDiv("You won! Scissors beat Paper.");
+                    return;
                 case "Scissors":
-                    alert("It's a draw! You both chose Scissors!");
-                    return 0;
+                    addResultDiv("A draw! You both chose Scissors!");
+                    return;
             }
 
     }
 
+}
+
+function addResultDiv(conclusionString)
+{
+    const conclusionDiv = document.createElement('div');
+    conclusionDiv.textContent = conclusionString;
+    conclusionDiv.classList.add('resultsDivResult');
+    const containerDiv = document.querySelector('.resultsDiv');
+    containerDiv.appendChild(conclusionDiv);
+    const conclusionDivs = document.querySelectorAll('.resultsDiv > div');
+    const conclusionDivsCount = conclusionDivs.length;
+    if(conclusionDivsCount == 5)
+    {
+        announceWinner(conclusionDivs);
+    }
+
+}
+
+
+function announceWinner(roundDivs)
+{
+    let index = 0;
+    roundDivs.forEach(roundDiv => {
+        let roundDivText = roundDiv.textContent;
+        if(roundDivText.includes('won'))
+        {
+            index++;
+        }
+        else if(roundDivText.includes('lost'))
+        {
+            index--;
+        }
+        roundDiv.parentNode.removeChild(roundDiv);
+    });
+    if(index > 0)
+    {
+        let currentBodyColor = window.getComputedStyle(document.body).getPropertyValue('background-color');
+        document.body.style.backgroundColor = "rgb(0, 101, 0)";
+        setInterval(() => {
+            document.body.style.backgroundColor = currentBodyColor
+        }, 2000);
+    }
+    else if (index < 0)
+    {
+        let currentBodyColor = window.getComputedStyle(document.body).getPropertyValue('background-color');
+        document.body.style.backgroundColor = "rgb(101, 0, 0)";
+        setInterval(() => {
+            document.body.style.backgroundColor = currentBodyColor
+        }, 2000);
+    }
+    else
+    {
+        let currentBodyColor = window.getComputedStyle(document.body).getPropertyValue('background-color');
+        document.body.style.backgroundColor = "rgb(100, 100, 100)";
+        setInterval(() => {
+            document.body.style.backgroundColor = currentBodyColor
+        }, 2000);
+    }
 }
 
 const choiceButtons = document.querySelectorAll('button.choice');
